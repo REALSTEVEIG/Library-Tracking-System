@@ -89,6 +89,10 @@ class TopActiveMembersView(APIView):
                 'id': member.id,
                 "username": member.username,
                 "email": member.user.email,
-                "active_loans"
-            }]
+                "active_loans": member.active_loans or 0
+            }
+            for member in top_members
+            ]
+
+            return Response(data)
         )
