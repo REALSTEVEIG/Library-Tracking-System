@@ -79,3 +79,16 @@ class LoanViewSet(viewsets.ModelViewSet):
             'new_due_dat': loan.due_date,
             'loan': serializer.data
         }, status=status.HTTP_200_OK)
+
+class TopActiveMembersView(APIView):
+    def get(self, request):
+        top_members = Member.objects.annotate(
+            active_loans=Count('loans', filter=models.Q(loans__is_returned=FALSE)).order_by('-active_loans', 'user__username')[:5]
+
+            data = [{
+                'id': member.id,
+                "username": member.username,
+                "email": member.user.email,
+                "active_loans"
+            }]
+        )
