@@ -83,7 +83,7 @@ class LoanViewSet(viewsets.ModelViewSet):
 class TopActiveMembersView(APIView):
     def get(self, request):
         top_members = Member.objects.annotate(
-            active_loans=Count('loans', filter=models.Q(loans__is_returned=FALSE)).order_by('-active_loans', 'user__username')[:5]
+            active_loans=Count('loans', filter=models.Q(loans__is_returned=False)).order_by('-active_loans', 'user__username')[:5]
 
             data = [{
                 'id': member.id,
